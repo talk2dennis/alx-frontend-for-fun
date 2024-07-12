@@ -3,6 +3,16 @@
 
 import sys
 import os
+import hashlib
+import re
+
+def md5_hash(content):
+    """Convert content to MD5 hash (lowercase)."""
+    return hashlib.md5(content.encode()).hexdigest()
+
+def remove_c(content):
+    """Remove all 'c' characters (case insensitive) from content."""
+    return re.sub(r'[cC]', '', content)
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -25,7 +35,17 @@ if __name__ == "__main__":
                 line = line.replace('**', '</b>', 1)
                 line = line.replace('__', '<em>', 1)
                 line = line.replace('__', '</em>', 1)
-                line = line.strip()
+
+                if '[[' in line and ']]' in line:
+                    content = re.search(r'\[\[(.*?)\]\]', line).group(1)
+                    hashed_content = md5_hash(content)
+                    line = re.sub(r'\[\[(.*?)\]\]', hashed_content, line)
+
+                if '((' in line and '))' in line:
+                    content = re.search(r'\(\((.*?)\)\)', line).group(1)
+                    transformed_content = remove_c(content)
+                    line = re.sub(r'\(\((.*?)\)\)', transformed_content, line)
+                    line = line.strip()
                 if line.startswith('#'):
                     if paragraph:
                         f2.write('</p>\n')
