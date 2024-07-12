@@ -31,11 +31,13 @@ if __name__ == "__main__":
             paragraph = False
 
             for line in f:
-                line = line.replace('**', '<b>', 1)
-                line = line.replace('**', '</b>', 1)
-                line = line.replace('__', '<em>', 1)
-                line = line.replace('__', '</em>', 1)
+                line = line.rstrip()
 
+                # Handle bold and italic formatting
+                line = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', line)
+                line = re.sub(r'__(.*?)__', r'<em>\1</em>', line)
+
+                # Handle custom transformations
                 if '[[' in line and ']]' in line:
                     content = re.search(r'\[\[(.*?)\]\]', line).group(1)
                     hashed_content = md5_hash(content)
@@ -45,16 +47,16 @@ if __name__ == "__main__":
                     content = re.search(r'\(\((.*?)\)\)', line).group(1)
                     transformed_content = remove_c(content)
                     line = re.sub(r'\(\((.*?)\)\)', transformed_content, line)
-                    line = line.strip()
+
+                # Handle headers
                 if line.startswith('#'):
                     if paragraph:
                         f2.write('</p>\n')
                         paragraph = False
                     count = len(line) - len(line.lstrip('#'))
-                    f2.write('<h{}>{}</h{}>\n'
-                             .format(count, line[count:]
-                                     .strip(), count))
+                    f2.write('<h{}>{}</h{}>\n'.format(count, line[count:].strip(), count))
 
+                # Handle unordered and ordered lists
                 elif line.startswith('- ') or line.startswith('* '):
                     if paragraph:
                         f2.write('</p>\n')
@@ -75,6 +77,7 @@ if __name__ == "__main__":
                             in_list = True
                     f2.write('<li>{}</li>\n'.format(line[2:].strip()))
 
+                # Handle empty lines
                 elif line == '':
                     if paragraph:
                         f2.write('</p>\n')
@@ -86,6 +89,7 @@ if __name__ == "__main__":
                         f2.write('</ol>\n')
                         ordered = False
 
+                # Handle regular paragraphs and line breaks
                 else:
                     if in_list:
                         f2.write('</ul>\n')
@@ -100,6 +104,7 @@ if __name__ == "__main__":
                         f2.write('<br/>')
                     f2.write('{}'.format(line))
 
+            # Close any remaining open tags
             if in_list:
                 f2.write('</ul>\n')
             if ordered:
