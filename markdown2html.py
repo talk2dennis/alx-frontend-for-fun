@@ -3,7 +3,6 @@
 
 import sys
 import os
-import re
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
@@ -11,7 +10,7 @@ if __name__ == "__main__":
               file=sys.stderr)
         sys.exit(1)
 
-    if os.path.exists(sys.argv[1]) is False:
+    if not os.path.exists(sys.argv[1]):
         print("Missing {}".format(sys.argv[1]), file=sys.stderr)
         sys.exit(1)
 
@@ -19,41 +18,68 @@ if __name__ == "__main__":
         with open(sys.argv[2], 'w') as f2:
             in_list = False
             ordered = False
+            paragraph = False
+
             for line in f:
-                if line[0] == '#':
-                    count = 0
-                    for i in line:
-                        if i == '#':
-                            count += 1
-                        else:
-                            break
-                    f2.write('<h{}>'.format(count) + line[count:].strip() +
-                             '</h{}>\n'.format(count))
-                elif line[0] == '-' or line[0] == '*':
-                    if line[0] == '*':
-                        ordered = True
-                    if not in_list:
-                        if ordered:
+                stripped_line = line.strip()
+
+                if stripped_line.startswith('#'):
+                    if paragraph:
+                        f2.write('</p>\n')
+                        paragraph = False
+                    count = len(stripped_line) - len(stripped_line.lstrip('#'))
+                    f2.write('<h{}>{}</h{}>\n'.format(count, stripped_line[count:].strip(), count))
+
+                elif stripped_line.startswith('- ') or stripped_line.startswith('* '):
+                    if paragraph:
+                        f2.write('</p>\n')
+                        paragraph = False
+                    if stripped_line.startswith('* '):
+                        if not ordered:
+                            if in_list:
+                                f2.write('</ul>\n')
+                                in_list = False
                             f2.write('<ol>\n')
-                            in_list = True
-                        else:
+                            ordered = True
+                    elif stripped_line.startswith('- '):
+                        if not in_list:
+                            if ordered:
+                                f2.write('</ol>\n')
+                                ordered = False
                             f2.write('<ul>\n')
                             in_list = True
-                    f2.write('<li>' + line[1:].strip() + '</li>\n')
+                    f2.write('<li>{}</li>\n'.format(stripped_line[2:].strip()))
+
+                elif stripped_line == '':
+                    if paragraph:
+                        f2.write('</p>\n')
+                        paragraph = False
+                    elif in_list:
+                        f2.write('</ul>\n')
+                        in_list = False
+                    elif ordered:
+                        f2.write('</ol>\n')
+                        ordered = False
 
                 else:
                     if in_list:
+                        f2.write('</ul>\n')
                         in_list = False
-                        if ordered:
-                            f2.write('</ol>\n')
-                            ordered = False
-                        else:
-                            f2.write('</ul>\n')
-                    f2.write(line)
+                    if ordered:
+                        f2.write('</ol>\n')
+                        ordered = False
+                    if not paragraph:
+                        f2.write('<p>')
+                        paragraph = True
+                    else:
+                        f2.write('<br/>')
+                    f2.write('{}'.format(stripped_line))
+
             if in_list:
-                in_list = False
-                if ordered:
-                    f2.write('</ol>\n')
-                    ordered = False
-                else:
-                    f2.write('</ul>\n')
+                f2.write('</ul>\n')
+            if ordered:
+                f2.write('</ol>\n')
+            if paragraph:
+                f2.write('</p>\n')
+
+    sys.exit(0)
