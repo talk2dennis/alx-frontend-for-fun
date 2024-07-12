@@ -1,11 +1,5 @@
 # alx-frontend-for-fun
 
-Certainly! Here’s an expanded and detailed version:
-
----
-
-# ALX Front-End Specialization Projects
-
 This repository contains various tasks and projects completed as part of the ALX Front-End Specialization. These projects are designed to enhance skills in web development and include a mix of fun exercises and comprehensive projects in multiple languages and technologies.
 
 ## Table of Contents
