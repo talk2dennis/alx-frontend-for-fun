@@ -35,6 +35,9 @@ if __name__ == "__main__":
                     f2.write('<li>' + line[1:].strip() + '</li>\n')
 
                 else:
+                    if in_list:
+                        f2.write('</ul>\n')
+                        in_list = False
                     f2.write(line)
             if in_list:
                 f2.write('</ul>\n')
