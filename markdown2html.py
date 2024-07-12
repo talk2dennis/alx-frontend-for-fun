@@ -18,6 +18,7 @@ if __name__ == "__main__":
     with open(sys.argv[1], 'r') as f:
         with open(sys.argv[2], 'w') as f2:
             in_list = False
+            ordered = False
             for line in f:
                 if line[0] == '#':
                     count = 0
@@ -28,17 +29,31 @@ if __name__ == "__main__":
                             break
                     f2.write('<h{}>'.format(count) + line[count:].strip() +
                              '</h{}>\n'.format(count))
-                elif line[0] == '-':
+                elif line[0] == '-' or line[0] == '*':
+                    if line[0] == '*':
+                        ordered = True
                     if not in_list:
-                        f2.write('<ul>\n')
-                        in_list = True
+                        if ordered:
+                            f2.write('<ol>\n')
+                            in_list = True
+                        else:
+                            f2.write('<ul>\n')
+                            in_list = True
                     f2.write('<li>' + line[1:].strip() + '</li>\n')
 
                 else:
                     if in_list:
-                        f2.write('</ul>\n')
                         in_list = False
+                        if ordered:
+                            f2.write('</ol>\n')
+                            ordered = False
+                        else:
+                            f2.write('</ul>\n')
                     f2.write(line)
             if in_list:
-                f2.write('</ul>\n')
                 in_list = False
+                if ordered:
+                    f2.write('</ol>\n')
+                    ordered = False
+                else:
+                    f2.write('</ul>\n')
