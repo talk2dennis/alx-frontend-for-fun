@@ -21,36 +21,41 @@ if __name__ == "__main__":
             paragraph = False
 
             for line in f:
-                stripped_line = line.strip()
-
-                if stripped_line.startswith('#'):
+                line = line.replace('**', '<b>', 1)
+                line = line.replace('**', '</b>', 1)
+                line = line.replace('__', '<em>', 1)
+                line = line.replace('__', '</em>', 1)
+                line = line.strip()
+                if line.startswith('#'):
                     if paragraph:
                         f2.write('</p>\n')
                         paragraph = False
-                    count = len(stripped_line) - len(stripped_line.lstrip('#'))
-                    f2.write('<h{}>{}</h{}>\n'.format(count, stripped_line[count:].strip(), count))
+                    count = len(line) - len(line.lstrip('#'))
+                    f2.write('<h{}>{}</h{}>\n'
+                             .format(count, line[count:]
+                                     .strip(), count))
 
-                elif stripped_line.startswith('- ') or stripped_line.startswith('* '):
+                elif line.startswith('- ') or line.startswith('* '):
                     if paragraph:
                         f2.write('</p>\n')
                         paragraph = False
-                    if stripped_line.startswith('* '):
+                    if line.startswith('* '):
                         if not ordered:
                             if in_list:
                                 f2.write('</ul>\n')
                                 in_list = False
                             f2.write('<ol>\n')
                             ordered = True
-                    elif stripped_line.startswith('- '):
+                    elif line.startswith('- '):
                         if not in_list:
                             if ordered:
                                 f2.write('</ol>\n')
                                 ordered = False
                             f2.write('<ul>\n')
                             in_list = True
-                    f2.write('<li>{}</li>\n'.format(stripped_line[2:].strip()))
+                    f2.write('<li>{}</li>\n'.format(line[2:].strip()))
 
-                elif stripped_line == '':
+                elif line == '':
                     if paragraph:
                         f2.write('</p>\n')
                         paragraph = False
@@ -73,7 +78,7 @@ if __name__ == "__main__":
                         paragraph = True
                     else:
                         f2.write('<br/>')
-                    f2.write('{}'.format(stripped_line))
+                    f2.write('{}'.format(line))
 
             if in_list:
                 f2.write('</ul>\n')
