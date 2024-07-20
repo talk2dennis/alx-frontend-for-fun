@@ -2,8 +2,36 @@
     display: flex;
     justify-content: center;
     align-items: baseline;
+    margin: 0;
+    padding: 1rem;
+}
+
+.box1 {
+    font-size: 1rem;
+    background-color: rgb(111, 171, 102);
+}
+
+.box2 {
+    font-size: 2rem;
+    background-color: rgb(111, 166, 237);
+}
+
+.box3 {
+    font-size: 5rem;
+    background-color: rgb(73, 68, 101);
+}
+
+.box4 {
+    font-size: 2rem;
+    background-color: rgb(159, 97, 197);
+}
+
+.box5 {
+    font-size: 1rem;
+    background-color: rgb(238, 161, 37);;
 }
 
 .box {
-    
+    padding: 1rem;
+    color: white;
 }
