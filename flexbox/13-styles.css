@@ -348,7 +348,7 @@
   
   .section-hero {
     position: relative;
-    margin: -8.5rem;
+    margin-top: -8.5rem;
   }
 
   .hero-homepage {
@@ -601,7 +601,7 @@
 }
 
 .tag-list li {
-  display: inline-block;
+  display: inline;
 }
 
 .tag-list li::after {
