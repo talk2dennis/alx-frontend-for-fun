@@ -809,6 +809,7 @@ textarea:valid:not(:placeholder-shown) {
 
 
 /*** SEARCH FORM ***/
+
 .form-search {
   display: block;
   padding: .5rem 0;
@@ -825,11 +826,11 @@ textarea:valid:not(:placeholder-shown) {
 
 .search-button .search-icon {
   fill: var(--color-white);
-  width: 1.5rem;
   height: 1.5rem;
+  width: 1.5rem;
 }
 
-.form-search input[type=search] {
+.form-search input[type="search"] {
   display: inline-block;
   color: var(--color-white);
   padding-right: 2rem;
@@ -838,19 +839,19 @@ textarea:valid:not(:placeholder-shown) {
   outline: none;
   position: absolute;
   width: 0;
-  right: 0;
+  height: 0;
   background: none;
   cursor: pointer;
   z-index: 3;
   transition: width .4s cubic-bezier(0, 0.795, 0, 1);
 }
 
-.form-search input[type=search]:focus {
+.form-search input[type="search"]:focus {
   position: relative;
   width: 15rem;
   z-index: 1;
   border-bottom: .1rem solid var(--color-grey);
-  padding: 0;
+  border: 0;
   cursor: text;
   margin: 0 1rem;
 }
