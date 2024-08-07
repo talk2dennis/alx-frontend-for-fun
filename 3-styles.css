@@ -1,0 +1,131 @@
+/* General styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+
+nav {
+    position: relative;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+
+.menu-open {
+    display: none;
+}
+
+.menu-open-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center; /* Center the lines horizontally */
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    z-index: 10;
+    background: #df0d0d;
+    border-radius: 50%;
+    color: white;
+}
+
+.menu-line {
+    width: 30px;
+    height: 4px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.menu-item {
+    display: block; /* Keep it block to ensure animation works */
+    width: 50px;
+    height: 50px;
+    padding-top: 15px;
+    background-color: #df0d0d;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 50%;
+    margin: 5px 0;
+    color: white;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    border: 1px solid #df0d0d;
+    transform: translateY(-70px);
+    opacity: 0; /* Ensure opacity is initially 0 */
+}
+
+.menu-item i {
+    font-size: 20px;
+    color: white;
+}
+
+.menu-item:hover, .menu-item i:hover {
+    color: rgb(247, 15, 15);
+    background: #ffffff;
+    outline: orangered;
+}
+
+/* Menu open state */
+#menu-open:checked + .menu-open-button .menu-line-1 {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+#menu-open:checked + .menu-open-button .menu-line-2 {
+    opacity: 0;
+}
+
+#menu-open:checked + .menu-open-button .menu-line-3 {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+#menu-open:checked ~ .menu-item {
+    transform: translateY(0);
+    opacity: 1; /* Ensure opacity is set to 1 */
+    animation: pullDown 0.4s forwards ease-out;
+}
+
+#menu-open:not(:checked) ~ .menu-item {
+    transform: translateY(-70px); /* Ensure it moves back up */
+    opacity: 0; /* Ensure opacity is set to 0 */
+    animation: pushUp 0.4s forwards ease-in;
+}
+
+/* Keyframes for pull-down animation */
+@keyframes pullDown {
+    0% {
+        transform: translateY(-70px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Keyframes for push-up animation */
+@keyframes pushUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-70px);
+        opacity: 0;
+    }
+}
