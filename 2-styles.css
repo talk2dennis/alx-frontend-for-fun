@@ -1,0 +1,76 @@
+/* Base styles for the toggle container */
+.toggle {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    height: 34px;
+    margin: 20px;
+}
+
+/* Hide the default checkbox */
+.toggle-cb {
+    display: none;
+}
+
+/* Base styles for the toggle label */
+.toggle-label {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: #f3f2f2;
+    border-radius: 34px;
+    cursor: pointer;
+    transition: background-color 0.4s;
+}
+
+/* Inner part of the toggle (background) */
+.toggle-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 34px;
+    transition: background-color 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+}
+
+/* The switch element */
+.toggle-switch {
+    position: absolute;
+    top: -4px;
+    left: -10px;
+    width: 45px;
+    height: 45px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.4s;
+    border: 1px solid #ccc;
+}
+
+/* Styles for when the checkbox is checked */
+.toggle-cb:checked + .toggle-label .toggle-inner {
+    background-color: #ec4f4f; /* Change to your desired color */
+}
+
+.toggle-cb:checked + .toggle-label .toggle-switch {
+    transform: translateX(90px); /* Move the switch to the right */
+}
+
+/* Text display based on checkbox state */
+.toggle-inner::after {
+    content: 'No';
+    text-align: right;
+    color: #ccc;
+}
+
+.toggle-cb:checked + .toggle-label .toggle-inner::after {
+    content: 'Yes';
+    text-align: left;
+    color: white;
+}

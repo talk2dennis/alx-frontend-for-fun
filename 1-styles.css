@@ -27,9 +27,9 @@ h2 a::before {
     transform: scaleX(0);
     transform-origin: bottom left;
     transition: transform 2s ease;
-  }
+}
   
 
 h2 a:hover::before {
-    transform: scaleX(1);
+    transform: scaleY(1);
 }
