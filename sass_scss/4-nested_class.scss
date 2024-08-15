@@ -1,0 +1,11 @@
+// 
+
+$color_dark: #3D3D3D;
+$color_red: #FF0000;
+
+body {
+    color: $color_dark;
+    .red {
+        color: $color_red;
+    }
+}
