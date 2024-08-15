@@ -1,0 +1,15 @@
+// nested deeper
+
+$font-size-x: 14px;
+$font-size-xx: 16px;
+$font-size: 12px;
+
+body {
+    font-size: $font-size-x;
+    h1 {
+        font-size: $font-size-xx;
+        &.smaller {
+            font-size: $font-size;
+        }
+    }
+}

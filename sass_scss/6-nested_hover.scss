@@ -1,8 +1,11 @@
 // applied style to button and button hover
 
+$color_red: #FF0000;
+$color_green: #00FF00;
+
 button {
-    color: #FF0000;
+    color: $color_red;
     &:hover {
-        color: #00FF00;
+        color: $color_green;
     }
 }
