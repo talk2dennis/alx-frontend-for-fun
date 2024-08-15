@@ -1,0 +1,18 @@
+//  a sass file that extend style of the class .info
+
+$color-green: #00FF00;
+$color-red: #FF0000;
+
+.info {
+    font-size: 12px;
+}
+
+.success {
+    @extend .info;
+    color: $color-green;
+}
+
+.warning {
+    @extend .info;
+    color: $color-red;
+}
