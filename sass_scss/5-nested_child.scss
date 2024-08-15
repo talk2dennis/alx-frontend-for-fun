@@ -1,11 +1,11 @@
-// declared and used variables and nested styles
+// declared and used variables and used nested styles
 
 $color_dark: #3D3D3D;
 $color_red: #FF0000;
 
 body {
     color: $color_dark;
-    .red {
+    > .red {
         color: $color_red;
     }
 }
