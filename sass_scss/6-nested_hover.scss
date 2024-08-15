@@ -5,7 +5,7 @@ $color_green: #00FF00;
 
 button {
     color: $color_red;
-    :hover {
+    &:hover {
         color: $color_green;
     }
 }
