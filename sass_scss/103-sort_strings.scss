@@ -1,13 +1,62 @@
-/* sorts array of strings */
+/* sorting list of strings using bubble sort */
 
 @import '103-sort_list';
 
-// Mixin to manually simulate sorting
-@mixin sort-list($list) {
-    $sorted_list: 'anna', 'carrie', 'felicia', 'john', 'kim', 'zoe';
-  
-    // Print the sorted list
-    @debug $sorted_list;
+// Function to get the ASCII value of a character
+@function char-code($char) {
+    @return str-index("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", $char);
 }
 
-@include sort-list($list_to_sort);
+// Function to compare two strings lexicographically
+@function compare-strings($a, $b) {
+    $len_a: str-length($a);
+    $len_b: str-length($b);
+    $min_len: if($len_a < $len_b, $len_a, $len_b);
+
+    @for $i from 1 through $min_len {
+        $char_a: str-slice($a, $i, $i);
+        $char_b: str-slice($b, $i, $i);
+
+        @if char-code($char_a) != char-code($char_b) {
+            @if char-code($char_a) < char-code($char_b) {
+                @return -1;
+            } @else {
+                @return 1;
+            }
+        }
+    }
+
+    // If all characters so far were the same, compare by length
+    @if $len_a < $len_b {
+        @return -1;
+    } @else if $len_a > $len_b {
+        @return 1;
+    }
+
+    @return 0;
+}
+
+// Function to implement bubble sort
+@function bubble-sort($list) {
+    $sorted: $list;
+    $n: length($sorted);
+
+    @for $i from 1 through $n - 1 {
+        @for $j from 1 through $n - $i {
+            $current: nth($sorted, $j);
+            $next: nth($sorted, $j + 1);
+            $comparison: compare-strings($current, $next);
+
+            @if $comparison > 0 {
+                // Swap the elements
+                $sorted: set-nth($sorted, $j, $next);
+                $sorted: set-nth($sorted, $j + 1, $current);
+            }
+        }
+    }
+
+    @return $sorted;
+}
+
+// Print the sorted list
+@debug bubble-sort($list_to_sort);
